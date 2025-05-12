@@ -221,6 +221,19 @@ class Product(db.Model):
         return cls.query.filter(cls.price == price_value)
 
     @classmethod
+    def find_by_category(cls, category: Category) -> list:
+        """Returns all Products by their Category
+
+        :param category: the category of the products
+        :type category: Category
+
+        :return: a list of products that belong to that category
+        :rtype: list
+        """
+        logger.info("Processing category query for %s ...", category.name)
+        return cls.query.filter(cls.category == category)
+
+    @classmethod
     def find_by_availability(cls, available: bool = True) -> list:
         """Returns all Products by their availability
 
@@ -233,17 +246,3 @@ class Product(db.Model):
         """
         logger.info("Processing available query for %s ...", available)
         return cls.query.filter(cls.available == available)
-
-    @classmethod
-    def find_by_category(cls, category: Category = Category.UNKNOWN) -> list:
-        """Returns all Products by their Category
-
-        :param category: values are ['MALE', 'FEMALE', 'UNKNOWN']
-        :type available: enum
-
-        :return: a collection of Products that are available
-        :rtype: list
-
-        """
-        logger.info("Processing category query for %s ...", category.name)
-        return cls.query.filter(cls.category == category)
